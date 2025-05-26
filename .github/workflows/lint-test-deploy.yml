@@ -1,0 +1,35 @@
+name: Lint, Test, and Deploy
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  check:
+    name: CI Pipeline
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🛎️ Checkout code
+        uses: actions/checkout@v3
+
+      - name: 🧰 Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.14.0'
+
+      - name: 📦 Install dependencies
+        run: npm ci
+
+      - name: ✅ Run tests
+        run: npm run test
+
+      - name: 🔍 Run ESLint
+        run: npm run lint
+
+      - name: 🚀 Build 
+        run: npm run build
+      
+      - name: Deploy
+        run: echo 'fake deploy'
