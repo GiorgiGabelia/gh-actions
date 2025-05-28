@@ -4,9 +4,14 @@ on:
   pull_request:
     branches:
       - master
+    types: [opened, reopened, synchronize]
+    paths-ignore: 
+      - '.github/workflows/*'
+  
+  workflow_dispatch:
 
 jobs:
-  check:
+  ci:
     name: CI Pipeline
     runs-on: ubuntu-latest
 
