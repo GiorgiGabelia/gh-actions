@@ -31,5 +31,21 @@ jobs:
             dist 
             package.json 
 
+  deploy: 
+    name: Fake deploy
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Download artefacts    
+        uses: actions/download-artifact@v4      
+        with: 
+            name: gios-dist-files
+
+      - name: Fake deploy
+        run: |
+          ls 
+          echo 'Deployed...'
+
       
 
