@@ -9,6 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       js-file-name: ${{ steps.publish_script.outputs.js-file-name }}
+      simple-output: ${{ steps.set_simple_output.outputs.simple-output }}
 
     steps:
       - name: Checkout
@@ -28,6 +29,10 @@ jobs:
       - name: Publish JS build file name
         id: publish_script
         run: find dist/assets/*.js -type f -execdir echo 'js-file-name={}' >> $GITHUB_OUTPUT ';'
+      
+      - name: Set simple output
+        id: set_simple_output
+        run: echo 'simple-output=4' >> $GITHUB_OUTPUT;
       
       - name: Upload artefacts
         uses: actions/upload-artifact@v4
@@ -49,7 +54,9 @@ jobs:
             name: gios-dist-files
 
       - name: Log published JS file name  
-        run: echo ${{ needs.outputs.build.js-file-name }}
+        run: echo |
+          ${{ needs.build.outputs.js-file-name }}
+          ${{ needs.build.outputs.simple-output }}
 
       - name: Fake deploy
         run: |
