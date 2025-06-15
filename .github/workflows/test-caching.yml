@@ -19,7 +19,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/ .npm
-          key:  deps-node-modules-${{ hashFiles('**/package-loc.json') }}
+          key:  deps-node-modules-${{ hashFiles('**/package-lock.json') }}
 
       - name: install dependencies
         run: npm ci
@@ -43,7 +43,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/ .npm
-          key:  deps-node-modules-${{ hashFiles('**/package-loc.json') }}    
+          key:  deps-node-modules-${{ hashFiles('**/package-lock.json') }}    
 
       - name: install dependencies
         run: npm ci
