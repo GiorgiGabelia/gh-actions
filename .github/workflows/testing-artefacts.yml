@@ -53,10 +53,10 @@ jobs:
         with: 
             name: gios-dist-files
 
-      - name: Log published JS file name  
-        run: echo |
-          ${{ needs.build.outputs.js-file-name }}
-          ${{ needs.build.outputs.simple-output }}
+      - name: Log outputs
+        run: |
+          echo 'JS file name: ${{ needs.build.outputs.js-file-name }}'
+          echo 'Simple output: ${{ needs.build.outputs.simple-output }}'
 
       - name: Fake deploy
         run: |
