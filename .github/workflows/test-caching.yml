@@ -1,0 +1,56 @@
+name: deploy
+
+on: workflow_dispatch
+
+jobs:
+
+  test: 
+    runs-on: ubuntu-latest
+    steps: 
+      - name: checkout code
+        uses: actions/checkout@v3
+
+      - name: install node
+        uses: actions/setup-node@v4
+        with: 
+          node-version: v22.14.0
+
+      - name: cache node modules
+        uses: actions/cache@v4
+        with:
+          path: ~/ .npm
+          key:  deps-node-modules-${{ hashFiles('**/package-loc.json') }}
+
+      - name: install dependencies
+        run: npm ci
+
+      - name: run tests
+        run: npm run test
+      
+  fake-deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v3
+
+      - name: install node
+        uses: actions/setup-node@v4
+        with: 
+          node-version: v22.14.0
+
+      - name: cache node modules
+        uses: actions/cache@v4
+        with:
+          path: ~/ .npm
+          key:  deps-node-modules-${{ hashFiles('**/package-loc.json') }}    
+
+      - name: install dependencies
+        run: npm ci
+
+      - name: build
+        run: npm run build
+
+      - name: deploy
+        run: echo "fake deploy"
+
