@@ -7,6 +7,8 @@ jobs:
   build:
     name: Job for testing artefacts
     runs-on: ubuntu-latest
+    outputs:
+      js-file-name: ${{ steps.publish_script.outputs.js-file-name }}
 
     steps:
       - name: Checkout
@@ -22,6 +24,10 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      - name: Publish JS build file name
+        id: publish_script
+        run: find dist/assets/*.js -type f -execdir echo 'js-file-name={}' >> $GITHUB_OUTPUT ';'
       
       - name: Upload artefacts
         uses: actions/upload-artifact@v4
@@ -30,7 +36,6 @@ jobs:
           path: |
             dist 
             package.json 
-            node_modules
 
   deploy: 
     name: Fake deploy
@@ -42,6 +47,9 @@ jobs:
         uses: actions/download-artifact@v4      
         with: 
             name: gios-dist-files
+
+      - name: Log published JS file name  
+        run: echo ${{ needs.outputs.build.js-file-name }}
 
       - name: Fake deploy
         run: |
